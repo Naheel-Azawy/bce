@@ -1,0 +1,39 @@
+{
+    "name": "bce",
+    "version": "1.0.0",
+    "description": "Basic Computer Emulator",
+    "scripts": {
+        "build": "webpack",
+        "build:prod": "webpack --env production",
+        "watch": "webpack -w",
+        "test": "mocha dist/test.bundle.js",
+        "start": "http-server dist"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Naheel-Azawy/bce.git"
+    },
+    "keywords": [
+        "emulator"
+    ],
+    "author": "Naheel Azawy",
+    "license": "GPL-3.0",
+    "bugs": {
+        "url": "https://github.com/Naheel-Azawy/bce/issues"
+    },
+    "homepage": "https://naheel.xyz/bce",
+    "devDependencies": {
+        "codemirror": "*",
+        "css-loader": "*",
+        "html-webpack-plugin": "*",
+        "http-server": "*",
+        "mocha": "*",
+        "offline-plugin": "*",
+        "style-loader": "*",
+        "ts-loader": "*",
+        "typescript": "*",
+        "webpack": "*",
+        "webpack-cli": "*",
+        "webpack-pwa-manifest": "*"
+    }
+}

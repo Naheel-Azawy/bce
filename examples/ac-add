@@ -1,0 +1,8 @@
+lda A
+add B
+sta C
+hlt
+
+A, 83
+B, -23
+C, 0

@@ -1,0 +1,160 @@
+:root {
+    --primary-background: #000000;
+    --primary-foreground: #ffffff;
+    --base-background:    #222222;
+    --base-foreground:    #ffffff;
+    --active-background:  #444444;
+    --active-foreground:  #ffffff;
+}
+
+.light {
+    --primary-background: #ffffff;
+    --primary-foreground: #000000;
+    --base-background:    #d0d0d0;
+    --base-foreground:    #000000;
+    --active-background:  #a0a0a0;
+    --active-foreground:  #000000;
+}
+
+:root {
+    --radius: 3px;
+}
+
+body {
+    margin: 0px;
+}
+
+body, button, select, input, textarea {
+    background-color: var(--primary-background);
+    color:            var(--primary-foreground);
+    font-family:      monospace;
+    font-size:        1em;
+    transition:       300ms;
+}
+
+input, button, select {
+    height: auto;
+}
+
+button, select {
+    background:    var(--base-background);
+    color:         var(--base-foreground);
+    border-radius: var(--radius);
+    border:        0px;
+    padding:       0.5em;
+    margin-right:  2px;
+    margin-left:   2px;
+    margin-top:    4px;
+    margin-bottom: 4px;
+    outline:       none;
+    user-select:   none;
+    min-height:    0px;
+    transition:    300ms;
+    overflow:      hidden;
+    box-shadow:    0px 1px #00000022;
+    cursor:        pointer;
+    text-align:    center;
+}
+
+input {
+    border-radius: var(--radius);
+    border:        1px solid gray;
+    padding:       0.3em;
+    margin-right:  2px;
+    margin-left:   2px;
+    margin-top:    4px;
+    margin-bottom: 4px;
+}
+
+button:active, select:active, input:focus {
+    background: var(--active-background);
+    color:      var(--active-foreground);
+}
+
+.textareas {
+    width:         100%;
+    height:        100%;
+    resize:        none;
+    white-space:   pre;
+    overflow-wrap: normal;
+    overflow-x:    auto;
+    border-radius: var(--radius);
+}
+
+.CodeMirror {
+    width:  100%;
+    height: 100%;
+    border-radius: var(--radius);
+}
+
+.modal {
+    display:          none;  /* Hidden by default */
+    position:         fixed; /* Stay in place */
+    z-index:          10;    /* Sit on top */
+    padding-top:      100px; /* Location of the box */
+    left:             0;
+    top:              0;
+    width:            100%; /* Full width */
+    height:           100%; /* Full height */
+    overflow:         auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+.modal-content {
+    margin:           auto;
+    padding:          20px;
+    border:           1px solid gray;
+    border-radius:    var(--radius);
+    max-width:        500px;
+    max-height:       90%;
+    background-color: var(--primary-background);
+    position:         relative;
+    animation:        animatein 150ms;
+}
+
+@keyframes animatein {
+    from { bottom: -300px; opacity: 0; }
+    to   { bottom: 0;      opacity: 1; }
+}
+
+table td, table td * {
+    vertical-align: top;
+}
+
+/* Hide the annoying highlight on android */
+input, textarea, button, select, a, div {
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    outline: none !important;
+}
+
+/* CodeMirror theme */
+.CodeMirror { border: 1px solid; }
+.breakpoints { width: .8em; }
+.cm-s-simple.CodeMirror, .cm-s-simple .CodeMirror-gutters {
+  background-color: var(--primary-background) !important;
+  color:            var(--primary-foreground) !important;
+  border-color:     gray;
+}
+.cm-s-simple .CodeMirror-gutters { color: gray; }
+.cm-s-simple .CodeMirror-cursor { border-left: solid var(--primary-foreground); }
+.cm-s-simple .CodeMirror-linenumber { color: gray; }
+.cm-s-simple .CodeMirror-selected { background: #33539D; }
+.cm-s-simple span.cm-comment { color: olive; }
+.cm-s-simple span.cm-string { color: green; }
+.cm-s-simple span.cm-string-2 { color: darkorange; }
+.cm-s-simple span.cm-number { color: darkorchid; }
+.cm-s-simple span.cm-variable { color: var(--primary-foreground); }
+.cm-s-simple span.cm-variable-2 { color: blueviolet; }
+.cm-s-simple span.cm-def { color: var(--primary-foreground); }
+.cm-s-simple span.cm-operator { color: lime; }
+.cm-s-simple span.cm-keyword { color: cornflowerblue; }
+.cm-s-simple span.cm-atom { color: orange; }
+.cm-s-simple span.cm-meta { color: orange; }
+.cm-s-simple span.cm-tag { color: lime; }
+.cm-s-simple span.cm-attribute { color: var(--primary-foreground); }
+.cm-s-simple span.cm-qualifier { color: var(--primary-foreground); }
+.cm-s-simple span.cm-property { color: cyan; }
+.cm-s-simple span.cm-builtin { color: var(--primary-foreground); }
+.cm-s-simple span.cm-variable-3, .cm-s-simple span.cm-type { color: yellow; }
+.cm-s-simple .CodeMirror-activeline-background { background: gray; }
+.cm-s-simple .CodeMirror-matchingbracket { text-decoration: underline; color: white !important; }

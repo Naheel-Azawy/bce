@@ -1,0 +1,12 @@
+* BCE
+  Basic Computer Emulator
+
+** Build
+   #+begin_src shell
+     make
+     # or...
+     npm i && npm run build:prod
+   #+end_src
+
+** License
+   GPL3
