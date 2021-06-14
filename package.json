@@ -28,7 +28,6 @@
         "html-webpack-plugin": "*",
         "http-server": "*",
         "mocha": "*",
-        "offline-plugin": "*",
         "style-loader": "*",
         "ts-loader": "*",
         "typescript": "*",
