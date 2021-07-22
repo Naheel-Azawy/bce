@@ -1,0 +1,18 @@
+top,	lda x
+	sub one
+	jc cont
+
+	lda prod
+	out
+	hlt
+
+cont,	sta x
+	lda prod
+	add y
+	sta prod
+	jmp top
+
+one,	1
+prod,	0
+x,	5
+y,	3

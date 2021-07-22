@@ -1,0 +1,22 @@
+lop,	cle
+	lda y
+	cir
+	sta y
+	sze
+	bun one
+	bun zro
+one,	lda x
+	add p
+	sta p
+	cle
+zro,	lda x
+	cil
+	sta x
+	isz ctr
+	bun lop
+	hlt
+
+ctr,	dec -8
+x,	dec 534
+y,	dec 32
+p,	dec 0

@@ -553,7 +553,10 @@ function initEditor() {
         theme:          "simple",
         spellcheck:     false,
         autocorrect:    false,
-        autocapitalize: false
+        autocapitalize: false,
+        tabSize:        8,
+        indentUnit:     8,
+        indentWithTabs: true
     });
 
     editor.on("gutterClick", (cm, n) => {

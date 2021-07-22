@@ -16,7 +16,7 @@ function buildString() {
 }
 
 function ex(f) {
-    return JSON.stringify(fs.readFileSync("./examples/" + f).toString());
+    return JSON.stringify(fs.readFileSync(`./examples/${f}.bca`).toString());
 }
 
 module.exports = env => {
