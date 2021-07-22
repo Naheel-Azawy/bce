@@ -207,18 +207,3 @@ describe("ComputerBen", async () => {
         strictEqual(c.M.data[7], a + b);
     });
 });
-
-/*describe("ComputerAC", async () => {
-    let c = new ComputerAC();
-    c.logger.connect(s => {
-        console.log("LOG>>> " + s);
-    });
-
-    console.log(c.toString());
-    c.fmt.mStart = 15;
-    console.log(c.fmt.all);
-    c.loadProgram(prog2);
-    console.log(c.fmt.all);
-    await c.start();
-    console.log(c.fmt.all);
-});*/

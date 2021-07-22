@@ -35,8 +35,9 @@ async function main(args) {
           console.log(c.fmt.all);
           });*/
 
-        c.logger.connect(msg => {
-            console.log("LOG> " + msg);
+        c.logger.connect(() => {
+            console.log("LOG> " +
+                        c.logger.array[c.logger.array.length - 1]);
         });
 
         c.connectOnOut(c => {

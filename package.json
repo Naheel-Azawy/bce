@@ -23,6 +23,7 @@
     },
     "homepage": "https://naheel.xyz/bce",
     "devDependencies": {
+        "elemobj": "*",
         "codemirror": "*",
         "css-loader": "*",
         "html-webpack-plugin": "*",

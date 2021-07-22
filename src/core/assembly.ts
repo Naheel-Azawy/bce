@@ -239,7 +239,9 @@ export class Assembler {
         let resMap: Record<int, int> = {}; // adr -> bin
         let linesMap: Record<int, int> = {}; // adr -> line
         let notFoundAdrQueue: AsmQueueItem[] = [];
+        let upperLbl: string = "";
         let adr: int = 0;
+
         for (let i = 0; i < lines.length; ++i) {
             lines[i] = lines[i].split(";")[0].trim();
             if (lines[i].length == 0)
@@ -247,6 +249,7 @@ export class Assembler {
             let spaceLoc: int = lines[i].indexOf(' ');
             let name: string;
             let args: string;
+
             if (spaceLoc > 0) {
                 name = lines[i].substring(0, spaceLoc).toUpperCase();
                 args = lines[i].substring(spaceLoc + 1).trim();
@@ -254,6 +257,7 @@ export class Assembler {
                 name = lines[i].toUpperCase();
                 args = "";
             }
+
             if (name == Assembler.strOrg) {
                 let p = false;
                 if (args.charAt(0) == '+') {
@@ -269,13 +273,25 @@ export class Assembler {
                 } else {
                     throw new AsmErr(i, "Expected a number for ORG");
                 }
+
             } else if (name == Assembler.strEnd) {
                 break;
+
             } else {
-                let lblMatch = lines[i].match(/([A-Za-z_0-9]+)\s*,\s*(.+)/);
+                let lblMatch = lines[i].match(/([A-Za-z_0-9]+)\s*,\s*(.*)/);
                 if (lblMatch) {
-                    this.labels[lblMatch[1].trim()] = adr;
-                    lines[i] = lblMatch[2].trim();
+                    lblMatch[1] = lblMatch[1].trim();
+                    lblMatch[2] = lblMatch[2].trim();
+                    if (lblMatch[2]) {
+                        this.labels[lblMatch[1]] = adr;
+                        lines[i] = lblMatch[2];
+                    } else {
+                        upperLbl = lblMatch[1];
+                        continue;
+                    }
+                } else if (upperLbl) {
+                    this.labels[upperLbl] = adr;
+                    upperLbl = "";
                 }
                 let bins: int[] = this.assembleInstruction(i, lines[i]);
                 if (bins == ADR_NOT_FOUND) {

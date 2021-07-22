@@ -5,7 +5,7 @@ import { computers } from "../core/computers";
 import {
     $get, $br, $a, $button, $div, $input, $label,
     $option, $select, $table, $tr, $td, $textarea
-} from "./elemobj";
+} from "elemobj";
 
 import * as CodeMirror from "codemirror";
 
@@ -75,7 +75,8 @@ const defaultConf = {
     hex:      true,
     chr:      true,
     text:     true,
-    label:    true
+    label:    true,
+    live:     true
 };
 
 function setConf(key, val) {
@@ -217,16 +218,24 @@ function buttonsView() {
         ]),
 
         $div({style: {float: "right", marginRight: margin}}, [
+            $input({
+                type: "checkbox",
+                id: "live-chk",
+                value: "live-chk"}),
+            $label({style: {marginRight: "10px"},
+                    htmlFor: "live-chk"}, "LIVE"),
+
             "FREQ(Hz): ",
             $input({id: "freq", size: 4, oninput: () => {
                 let e = $get("#freq");
                 let v = e.value.replace(/[^0-9\-]/g, "");
                 if (v && !isNaN(Number(v))) {
                     c.freq = v;
-                    c.runListeners();
+                    c.runListenersNow();
                 }
                 e.value = v;
             }}),
+
             $button({onclick: () => showModal(moreView())}, "MORE"),
         ])
     ]);
@@ -243,7 +252,7 @@ function moreView() {
                 onchange: () => {
                     c.fmt[id] = $get("#" + id).checked;
                     setConf(id, c.fmt[id]);
-                    c.runListeners();
+                    c.runListenersNow();
                 }}),
             $label({htmlFor: id}, det),
             $br()
@@ -347,7 +356,7 @@ function regView() {
     return $div([
         label("Registers"),
         $div({style: {float: "right"}}, [
-            $button({onclick: () => c.clearRegs()}, "CLEAR"),
+            $button({onclick: () => c.clearRegs()}, "X"),
             $button({onclick: () => showModal(HELP_REG)}, "?")
         ]),
         $br(),
@@ -366,7 +375,7 @@ function memView() {
         } else {
             c.fmt.mStart += dir;
         }
-        c.runListeners();
+        c.runListenersNow();
     }
 
     return $div([
@@ -378,13 +387,13 @@ function memView() {
                 let v = e.value.replace(/[^0-9\-]/g, "");
                 if (v && !isNaN(Number(v))) {
                     c.fmt.mStart = Number(e.value);
-                    c.runListeners();
+                    c.runListenersNow();
                 }
                 e.value = v;
             }}),
             $button({onclick: () => move(-1)}, "↑"),
             $button({onclick: () => move(+1)}, "↓"),
-            $button({onclick: () => c.clearMem()}, "CLEAR"),
+            $button({onclick: () => c.clearMem()}, "X"),
             $button({onclick: () => showModal(HELP_MEM)}, "?")
         ]),
         $br(),
@@ -402,7 +411,7 @@ function logView() {
             $button({onclick: () => {
                 c.logger.clear();
                 $get("#log").value = "";
-            }}, "CLEAR"),
+            }}, "X"),
             $button({onclick: () => showModal(HELP_LOG)}, "?")
         ]),
         $br(),
@@ -418,7 +427,7 @@ function trmView() {
             $button({onclick: () => {
                 c.clearIO();
                 $get("#trm").value = "";
-            }}, "CLEAR"),
+            }}, "X"),
             $button({onclick: () => showModal(HELP_TRM)}, "?")
         ]),
         $br(),
@@ -723,7 +732,15 @@ function initComputer(kind) {
         }
     });
 
-    c.logger.log(`Welcome to ${kind} computer!`);
+    c.live = getConf("live");
+    let live_elem = $get("#live-chk");
+    live_elem.checked = getConf("live");
+    live_elem.onchange = () => {
+        c.live = $get("#live-chk").checked;
+        setConf("live", c.live);
+    };
+
+    c.logger.log(`Welcome to ${kind} computer!`, true);
     setConf("computer", kind);
 }
 
@@ -746,7 +763,7 @@ function reinit() {
     let log = $get("#log").innerHTML;
     let trm = $get("#trm").value;
     init();
-    c.runListeners();
+    c.runListenersNow();
     $get("#log").innerHTML = log;
     $get("#trm").value = trm;
 }
@@ -777,6 +794,7 @@ async function main() {
     defineCodeMirrorSyntax(CodeMirror);
     init();
     initComputer(getConf("computer"));
+    c.runListenersNow();
 }
 
 window.addEventListener("load", main);

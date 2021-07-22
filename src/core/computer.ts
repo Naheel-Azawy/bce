@@ -62,6 +62,7 @@ type ComputerIO = {
 };
 
 export abstract class Computer {
+    public    live:        boolean = false;
     public    memLabels:   Record<int, string> = {};
     public    linesMap:    Record<int, int>    = {};
     public    breakpoints: int[]               = [];
@@ -172,18 +173,18 @@ export abstract class Computer {
                     throw new RuntimeException(`Unknown program kind ${this.srcKind}`);
             }
             this.loadMemory(data);
-            this.logger.log(`Loaded ${name} program`);
+            this.logger.log(`Loaded ${name} program`, true);
             return true;
         } catch (e) {
-            this.logger.log("Error loading program: " + e.message);
-            this.runListeners();
+            this.logger.log("Error loading program: " + e.message, true);
+            this.runListenersNow();
             return false;
         }
     }
 
     public loadMemory(input: int[]): void {
         this.M.setContent(input);
-        this.runListeners();
+        this.runListenersNow();
     }
 
     public clearMemInternal(): void {
@@ -202,12 +203,12 @@ export abstract class Computer {
 
     public clearMem(): void {
         this.clearMemInternal();
-        this.runListeners();
+        this.runListenersNow();
     }
 
     public clearRegs(): void {
         this.clearRegsInternal();
-        this.runListeners();
+        this.runListenersNow();
     }
 
     public clear(): void {
@@ -215,12 +216,21 @@ export abstract class Computer {
         this.clearRegsInternal();
         this.clearIO();
         this.logger.clear();
-        this.runListeners();
+        this.runListenersNow();
+    }
+
+    public runListenersNow(): void {
+        for (let l of this.listeners) {
+            l();
+        }
+        if (!this.live) {
+            this.logger.runListeners();
+        }
     }
 
     public runListeners(): void {
-        for (let l of this.listeners) {
-            l();
+        if (this.live) {
+            this.runListenersNow();
         }
     }
 
@@ -241,6 +251,7 @@ export abstract class Computer {
     }
 
     public async start(): Promise<void> {
+        this.logger.log("Running...", true);
         if (this.running) {
             return;
         }
@@ -267,7 +278,7 @@ export abstract class Computer {
 
     public stop(): void {
         this.S.b = false;
-        this.runListeners();
+        this.runListenersNow();
     }
 
     protected async loop(): Promise<void> {
@@ -297,6 +308,7 @@ export abstract class Computer {
                 }
             }
         }
+        this.runListenersNow();
     }
 
     public get avgFreq(): int {
@@ -316,16 +328,16 @@ export abstract class Computer {
 
     public connectOnUpdate(l: ComputerListener): void {
         this.listeners.push(l);
-        this.runListeners();
+        this.runListenersNow();
     }
 
     protected log(msg: string): void {
-        this.logger.log(msg);
+        this.logger.log(msg, this.live);
         let inst = this.M.data[this.PC.value];
         if (this.SC.value == 1) {
-            this.logger.log(">>> " + this.fmt.registersMini);
-            this.logger.log("");
-            this.logger.log("<<< " + disassemble(this.IS, inst));
+            this.logger.log(">>> " + this.fmt.registersMini, this.live);
+            this.logger.log("", this.live);
+            this.logger.log("<<< " + disassemble(this.IS, inst), this.live);
         }
     }
 

@@ -8,7 +8,7 @@ export type Nullable<T> = T | undefined | null;
 
 export class RuntimeException extends Error {}
 
-type LogListener = (s: string) => void;
+type LogListener = () => void;
 
 export class Logger {
     private logs:      string[];
@@ -19,9 +19,11 @@ export class Logger {
         this.listeners = [];
     }
 
-    log(s: string): void {
+    log(s: string, run_now: boolean): void {
         this.logs.push(s);
-        this.runListeners(s);
+        if (run_now) {
+            this.runListeners();
+        }
     }
 
     connect(l: LogListener): void {
@@ -30,12 +32,12 @@ export class Logger {
 
     clear(): void {
         this.logs = [];
-        this.runListeners("");
+        this.runListeners();
     }
 
-    runListeners(s: string): void {
+    runListeners(): void {
         for (let l of this.listeners) {
-            l(s);
+            l();
         }
     }
 
