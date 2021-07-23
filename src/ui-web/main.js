@@ -397,7 +397,13 @@ function memView() {
             $button({onclick: () => showModal(HELP_MEM)}, "?")
         ]),
         $br(),
-        $textarea({id: "mem", className: "textareas", style: {overflowY: "hidden"}, readOnly: true})
+        $textarea({
+            id: "mem",
+            className: "textareas",
+            style: {overflowY: "hidden"},
+            readOnly: true,
+            onwheel: e => move((e.deltaY / 5) | 0)
+        })
     ]);
 }
 
@@ -683,6 +689,7 @@ function defineCodeMirrorSyntax(CodeMirror) {
 
 function initComputer(kind) {
     c = new computers[kind]();
+    window.computer = c;
 
     c.fmt.h = 30;
     for (let opt of ["signed", "dec", "hex", "chr", "text", "label"]) {

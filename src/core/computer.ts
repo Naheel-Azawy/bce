@@ -453,7 +453,7 @@ class Formatter {
     }
 
     public set mStart(val: int) {
-        let max = this.c.M.length - this.h;
+        let max = this.c.M.length - (this.h / 2);
         if (val < -1) {
             this._mStart = -1;
         } else if (val >= max) {
