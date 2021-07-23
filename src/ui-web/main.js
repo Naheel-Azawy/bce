@@ -595,7 +595,7 @@ function strIsInst(line, name) {
     } else if (!/^[a-zA-Z0-9]+/.test(name)) {
         return false;
     }
-    return new RegExp(`^\\s*([a-zA-Z0-9]+\\s*,\\s*)?${name}(\\s[a-zA-Z0-9]+)?(\\s+[Ii])?\\s*$`)
+    return new RegExp(`^\\s*([a-zA-Z0-9]+\\s*,\\s*)?${name}(\\s[a-zA-Z0-9]+)?(\\s+[Ii])?\\s*;?.*$`)
         .test(line);
 }
 
@@ -637,7 +637,7 @@ function defineCodeMirrorSyntax(CodeMirror) {
 
         function strIsNumLit(line, name) {
             let num = "^[\\+\\-]?(0x|0b)?[0-9a-fA-F]+$";
-            let numLine = `^\\s*([a-zA-Z0-9]+\\s*,\\s*)([a-zA-Z0-9]+)?\\s+${name.replace("+", "\\+")}\\s*$`;
+            let numLine = `^\\s*([a-zA-Z0-9]+\\s*,\\s*)([a-zA-Z0-9]+)?\\s+${name.replace("+", "\\+")}\\s*;?.*$`;
             try {
                 return new RegExp(num).test(name) && new RegExp(numLine).test(line);
             } catch (e) {

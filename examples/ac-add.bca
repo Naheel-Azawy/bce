@@ -1,3 +1,5 @@
+;; sum A and B to C
+
 lda A
 add B
 sta C

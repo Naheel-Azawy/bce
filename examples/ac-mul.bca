@@ -1,3 +1,5 @@
+;; multiply x and y and store the result in p
+
 lop,	cle
 	lda y
 	cir

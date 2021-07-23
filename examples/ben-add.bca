@@ -1,3 +1,5 @@
+;; sum a and b to c using Ben's computer
+
 lda a
 add b
 sta c

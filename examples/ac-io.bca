@@ -1,3 +1,5 @@
+;; print and read strings to and from terminal
+
 	; print s1
 	lda s1Adr
 	sta printPtr
@@ -33,6 +35,7 @@ s3Adr,	adr s3
 
 	; print a new line
 println,
+	nop ; ret addr
 	lda nln
 	out
 	bun println I
@@ -40,7 +43,7 @@ nln,	chr '\n'
 
 	; print a string in printPtr
 printPtr, 0
-print,
+print,	nop ; ret addr
 	lda printPtr I
 	out
 printLoop,
@@ -53,9 +56,9 @@ printLoop,
 	bun printLoop
 	bun print I
 
-	; read a string to readPtr
+; read a string to readPtr
 readPtr, 0
-read,	nop
+read,	nop ; ret addr
 read0,	ski
 	bun read0
 	inp

@@ -1,3 +1,5 @@
+;; multiply x and y to prod using Ben's computer
+
 top,	lda x
 	sub one
 	jc cont
