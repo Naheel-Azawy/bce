@@ -28,6 +28,8 @@
 ;;;###autoload
 (define-derived-mode bca-mode asm-mode "BCA"
   "Major mode for editing BCA files"
+  (setq tab-always-indent nil)
+  (setq indent-line-function #'indent-to-left-margin)
   (setq indent-tabs-mode t)
   (setq tab-width 8))
 (add-to-list 'auto-mode-alist '("\\.bca\\'" . bca-mode))
