@@ -109,7 +109,7 @@ describe("assembleInst", () => {
 describe("assemble", () => {
     it("should handle assemble code", () => {
         let is = new ComputerAC().IS;
-        let p = fs.readFileSync("./examples/ac-add").toString();
+        let p = fs.readFileSync("./examples/ac-add.bca").toString();
         let out = assemble(is, p.split("\n"));
         // for (let i in out)
         //    console.log(`${i}: ${out[i].toHex()}`);
@@ -126,9 +126,9 @@ function val(p, lbl) {
 describe("ComputerAC", async () => {
     it("should run the multiplication program", async () => {
         let c = new ComputerAC();
-        let p = fs.readFileSync("./examples/ac-mul").toString();
-        let x = val(p, "X");
-        let y = val(p, "Y");
+        let p = fs.readFileSync("./examples/ac-mul.bca").toString();
+        let x = val(p, "x");
+        let y = val(p, "y");
         c.loadProgram(p);
         await c.start();
         strictEqual(c.M.data[20], x * y);
@@ -136,7 +136,7 @@ describe("ComputerAC", async () => {
 
     it("should run addition program", async () => {
         let c = new ComputerAC();
-        let p = fs.readFileSync("./examples/ac-add").toString();
+        let p = fs.readFileSync("./examples/ac-add.bca").toString();
         let a = val(p, "A");
         let b = val(p, "B");
         c.loadProgram(p);
@@ -146,7 +146,7 @@ describe("ComputerAC", async () => {
 
     it("should run a dec program", async () => {
         let c = new ComputerAC();
-        let p = fs.readFileSync("./examples/ac-add-dec").toString();
+        let p = fs.readFileSync("./examples/ac-add-dec.bca").toString();
         let a = Number(p.split("\n")[4]);
         let b = Number(p.split("\n")[5]);
         c.loadProgram(p, PROG_DEC);
@@ -156,7 +156,7 @@ describe("ComputerAC", async () => {
 
     it("should run a hex program", async () => {
         let c = new ComputerAC();
-        let p = fs.readFileSync("./examples/ac-add-hex").toString();
+        let p = fs.readFileSync("./examples/ac-add-hex.bca").toString();
         let a = Number("0x" + p.split("\n")[4]);
         let b = Number("0x" + p.split("\n")[5]);
         c.loadProgram(p, PROG_HEX);
@@ -166,7 +166,7 @@ describe("ComputerAC", async () => {
 
     it("should run a bin program", async () => {
         let c = new ComputerAC();
-        let p = fs.readFileSync("./examples/ac-add-bin").toString();
+        let p = fs.readFileSync("./examples/ac-add-bin.bca").toString();
         let a = Number("0b" + p.split("\n")[4].replace(/\s/g, ""));
         let b = Number("0b" + p.split("\n")[5].replace(/\s/g, ""));
         c.loadProgram(p, PROG_BIN);
@@ -178,7 +178,7 @@ describe("ComputerAC", async () => {
         let c = new ComputerAC();
         let outBuf = "";
         c.connectOnOut(c => outBuf += c == '\0' ? '' : c);
-        let p = fs.readFileSync("./examples/ac-io").toString();
+        let p = fs.readFileSync("./examples/ac-io.bca").toString();
         c.loadProgram(p);
         c.putInpStr("Naheel");
         await c.start();
@@ -189,7 +189,7 @@ describe("ComputerAC", async () => {
 describe("ComputerBen", async () => {
     it("should run the multiplication program", async () => {
         let c = new ComputerBen();
-        let p = fs.readFileSync("./examples/ben-mul").toString();
+        let p = fs.readFileSync("./examples/ben-mul.bca").toString();
         let x = val(p, "x");
         let y = val(p, "y");
         c.loadProgram(p);
@@ -199,7 +199,7 @@ describe("ComputerBen", async () => {
 
     it("should run the addition program", async () => {
         let c = new ComputerBen();
-        let p = fs.readFileSync("./examples/ben-add").toString();
+        let p = fs.readFileSync("./examples/ben-add.bca").toString();
         let a = val(p, "a");
         let b = val(p, "b");
         c.loadProgram(p);
