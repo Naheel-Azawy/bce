@@ -76,8 +76,8 @@ export class ComputerAC extends Computer {
 
     constructor() {
         super({
-            name: "Accumulator Computer",
-            description: "A simple computer with a single accumulator register and I/O support.",
+            name: "Mano's Computer",
+            description: "A simple computer with a single accumulator register and I/O support. Based on the architecture described in the Computer System Architecture book by M. Morris Mano",
 
             registerFile: new RegisterFile([
                 {bits: 12, name: "AR",   description: "Address Register"},

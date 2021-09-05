@@ -27,7 +27,8 @@ ${NAME}
 Build ${BUILD}
 Copyright (C) 2021-present Naheel Azawy
 This program comes with absolutely no warranty.
-See the <a href=\"http://www.gnu.org/licenses/\">GNU General Public License, version 3 or later</a> for details.
+See the <a href="http://www.gnu.org/licenses/">GNU General Public License, version 3 or later</a> for details.
+Explore the source code <a href="https://github.com/Naheel-Azawy/bce">git repo</a>.
 `;
 
 const HELP_SRC = `
@@ -259,6 +260,19 @@ function moreView() {
         ];
     }
 
+    let archNames = { // TODO: unhardcode
+        "AC":  "Mano's Computer",
+        "BEN": "Ben's Computer",
+    };
+
+    let archs = [];
+    for (let a in computers) {
+        archs.push($option({
+            value: a,
+            selected: getConf("computer") == a
+        }, archNames[a]));
+    }
+
     return $table({style: {width: "100%"}}, [
         $tr([
             $td("Theme:"),
@@ -273,10 +287,7 @@ function moreView() {
             $td($select({
                 id: "arch",
                 onchange: () => initComputer($get("#arch").value)
-            }, [
-                $option({value: "AC"}, "Accumelator computer"),
-                $option({value: "BEN"}, "Ben's computer")
-            ]))
+            }, archs))
         ]),
 
         $tr([
