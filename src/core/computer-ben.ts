@@ -136,7 +136,7 @@ export class ComputerBen extends Computer {
 
         // Memory-Reference
         // LDA
-        if (this.LDA && this.T2) {
+        else if (this.LDA && this.T2) {
             this.log("LDA T2: IO MI");
             this.MAR.load(this.IR.bitsRange(0, 3));
             this.incSC();
@@ -273,12 +273,12 @@ export class ComputerBen extends Computer {
         else if (this.HLT && this.T2) {
             this.log("HLT T2: HLT");
             this.S.b = false;
-            this.incSC();
-        } else if (this.HLT && this.T3) {
-            this.log("HTL T3: NOP");
-            this.incSC();
-        } else if (this.HLT && this.T4) {
-            this.log("HLT T4: NOP");
+            this.clrSC();
+        }
+
+        // NOP or unknown
+        else if (this.T2) {
+            this.log("NOP T2: NOP");
             this.clrSC();
         }
     }
