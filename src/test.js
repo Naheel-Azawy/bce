@@ -28,8 +28,8 @@ import {
 } from "./core/computer";
 
 import {
-    ComputerAC
-} from "./core/computer-ac";
+    ComputerMano
+} from "./core/computer-mano";
 
 import {
     ComputerBen
@@ -84,14 +84,14 @@ describe("Instruction", () => {
 
 describe("disassemble", () => {
     it("should handle disassemble binary", () => {
-        let is = new ComputerAC().IS;
+        let is = new ComputerMano().IS;
         strictEqual(disassemble(is, 0xA003), "LDA 0003 I");
     });
 });
 
 describe("assembleInst", () => {
     it("should handle assemble instructions", () => {
-        let is = new ComputerAC().IS;
+        let is = new ComputerMano().IS;
         let instance = new Assembler(is);
         let asm = str => instance.assembleInstruction(0, str);
 
@@ -108,8 +108,8 @@ describe("assembleInst", () => {
 
 describe("assemble", () => {
     it("should handle assemble code", () => {
-        let is = new ComputerAC().IS;
-        let p = fs.readFileSync("./examples/ac-add.bca").toString();
+        let is = new ComputerMano().IS;
+        let p = fs.readFileSync("./examples/mano-add.bca").toString();
         let out = assemble(is, p.split("\n"));
         // for (let i in out)
         //    console.log(`${i}: ${out[i].toHex()}`);
@@ -123,10 +123,10 @@ function val(p, lbl) {
     return m && m[2] ? Number(m[2]) : undefined;
 }
 
-describe("ComputerAC", async () => {
+describe("ComputerMano", async () => {
     it("should run the multiplication program", async () => {
-        let c = new ComputerAC();
-        let p = fs.readFileSync("./examples/ac-mul.bca").toString();
+        let c = new ComputerMano();
+        let p = fs.readFileSync("./examples/mano-mul.bca").toString();
         let x = val(p, "x");
         let y = val(p, "y");
         c.loadProgram(p);
@@ -135,8 +135,8 @@ describe("ComputerAC", async () => {
     });
 
     it("should run addition program", async () => {
-        let c = new ComputerAC();
-        let p = fs.readFileSync("./examples/ac-add.bca").toString();
+        let c = new ComputerMano();
+        let p = fs.readFileSync("./examples/mano-add.bca").toString();
         let a = val(p, "A");
         let b = val(p, "B");
         c.loadProgram(p);
@@ -145,8 +145,8 @@ describe("ComputerAC", async () => {
     });
 
     it("should run a dec program", async () => {
-        let c = new ComputerAC();
-        let p = fs.readFileSync("./examples/ac-add-dec.bca").toString();
+        let c = new ComputerMano();
+        let p = fs.readFileSync("./examples/mano-add-dec.bca").toString();
         let a = Number(p.split("\n")[4]);
         let b = Number(p.split("\n")[5]);
         c.loadProgram(p, PROG_DEC);
@@ -155,8 +155,8 @@ describe("ComputerAC", async () => {
     });
 
     it("should run a hex program", async () => {
-        let c = new ComputerAC();
-        let p = fs.readFileSync("./examples/ac-add-hex.bca").toString();
+        let c = new ComputerMano();
+        let p = fs.readFileSync("./examples/mano-add-hex.bca").toString();
         let a = Number("0x" + p.split("\n")[4]);
         let b = Number("0x" + p.split("\n")[5]);
         c.loadProgram(p, PROG_HEX);
@@ -165,8 +165,8 @@ describe("ComputerAC", async () => {
     });
 
     it("should run a bin program", async () => {
-        let c = new ComputerAC();
-        let p = fs.readFileSync("./examples/ac-add-bin.bca").toString();
+        let c = new ComputerMano();
+        let p = fs.readFileSync("./examples/mano-add-bin.bca").toString();
         let a = Number("0b" + p.split("\n")[4].replace(/\s/g, ""));
         let b = Number("0b" + p.split("\n")[5].replace(/\s/g, ""));
         c.loadProgram(p, PROG_BIN);
@@ -175,10 +175,10 @@ describe("ComputerAC", async () => {
     });
 
     it("should run the io program", async () => {
-        let c = new ComputerAC();
+        let c = new ComputerMano();
         let outBuf = "";
         c.connectOnOut(c => outBuf += c == '\0' ? '' : c);
-        let p = fs.readFileSync("./examples/ac-io.bca").toString();
+        let p = fs.readFileSync("./examples/mano-io.bca").toString();
         c.loadProgram(p);
         c.putInpStr("Naheel");
         await c.start();

@@ -23,7 +23,7 @@ import {
     Computer
 } from "./computer"
 
-export class ComputerAC extends Computer {
+export class ComputerMano extends Computer {
 
     // registers
     public get AR():   Register { return this.RS.reg("AR");   }

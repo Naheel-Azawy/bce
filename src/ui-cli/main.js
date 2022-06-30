@@ -2,7 +2,9 @@
 
 // TODO: parse args
 
-import { computers } from "../core/computers";
+import {
+    computers, computer_name
+} from "../core/computers";
 import { assemble }  from "../core/assembly";
 import * as fs       from "fs";
 import * as vm       from "vm";
@@ -53,7 +55,7 @@ function startRepl() {
                     globalObj[reg] = c[reg];
                 }
                 arch = v;
-                c.logger.log(`Welcome to ${v} computer!`, true);
+                c.logger.log(`Welcome to ${computer_name(v)}!`, true);
             } else {
                 console.error(`unknown architecture '${v}'`);
                 console.error("choose one of the following: " +
@@ -144,7 +146,7 @@ function startRepl() {
         input, inputChar, info, clear
     });
 
-    globalObj.arch = "AC";
+    globalObj.arch = "MANO";
     c.fmt.h = 30;
     repl.start({ignoreUndefined: true});
 }

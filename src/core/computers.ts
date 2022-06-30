@@ -1,7 +1,12 @@
-import { ComputerAC }  from "./computer-ac"
-import { ComputerBen } from "./computer-ben"
+import { ComputerMano } from "./computer-mano"
+import { ComputerBen }  from "./computer-ben"
 
 export const computers = {
-    "AC":  ComputerAC,
-    "BEN": ComputerBen
+    "MANO": ComputerMano,
+    "BEN":  ComputerBen
+}
+
+export function computer_name(c: string): string {
+    return c.charAt(0).toUpperCase() +
+        c.slice(1).toLowerCase() + "'s computer";
 }

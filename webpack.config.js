@@ -1,8 +1,9 @@
-const path               = require("path");
-const fs                 = require("fs");
-const webpack            = require("webpack");
-const HtmlWebpackPlugin  = require("html-webpack-plugin");
-const WebpackPwaManifest = require("webpack-pwa-manifest");
+const path                 = require("path");
+const fs                   = require("fs");
+const webpack              = require("webpack");
+const HtmlWebpackPlugin    = require("html-webpack-plugin");
+const WebpackPwaManifest   = require("webpack-pwa-manifest");
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 function buildString() {
     let d = new Date();
@@ -15,8 +16,11 @@ function buildString() {
     return JSON.stringify(ret);
 }
 
-function ex(f) {
-    return JSON.stringify(fs.readFileSync(`./examples/${f}.bca`).toString());
+function ex(f, arch, name) {
+    return {
+        src: JSON.stringify(fs.readFileSync(`./examples/${f}.bca`).toString()),
+        arch: JSON.stringify(arch), name: JSON.stringify(name)
+    };
 }
 
 module.exports = env => {
@@ -51,14 +55,16 @@ module.exports = env => {
 
         plugins: [
             new webpack.DefinePlugin({
-                BUILD:           buildString(),
-                EXAMPLE_AC_ADD:  ex("ac-add"),
-                EXAMPLE_AC_MUL:  ex("ac-mul"),
-                EXAMPLE_AC_IO:   ex("ac-io"),
-                EXAMPLE_BEN_ADD: ex("ben-add"),
-                EXAMPLE_BEN_MUL: ex("ben-mul"),
+                BUILD: buildString(),
+                EXAMPLES: [
+                    ex("mano-add", "Mano", "Adding example"),
+                    ex("mano-mul", "Mano", "Multiplication example"),
+                    ex("mano-io",  "Mano", "I/O example"),
+                    ex("ben-add",  "Ben",  "Adding example"),
+                    ex("ben-mul",  "Ben",  "Multiplication example"),
+                ]
             }),
-            
+
             new HtmlWebpackPlugin({
                 template: "./src/ui-web/index.html",
                 chunks:   ["index"]
@@ -89,7 +95,9 @@ module.exports = env => {
                 banner:  "#!/usr/bin/env node",
                 include: "cli",
                 raw:     true
-            })
+            }),
+
+            // new BundleAnalyzerPlugin()
         ]
     };
 };

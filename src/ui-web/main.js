@@ -1,6 +1,8 @@
 "use strict";
 
-import { computers } from "../core/computers";
+import {
+    computers, computer_name
+} from "../core/computers";
 
 import {
     $get, $br, $a, $button, $div, $input, $label,
@@ -12,13 +14,7 @@ import * as CodeMirror from "codemirror";
 import "codemirror/lib/codemirror.css";
 import "./style.css";
 
-const examples = {
-    "ac-add":  EXAMPLE_AC_ADD,
-    "ac-mul":  EXAMPLE_AC_MUL,
-    "ac-io":   EXAMPLE_AC_IO,
-    "ben-add": EXAMPLE_BEN_ADD,
-    "ben-mul": EXAMPLE_BEN_MUL
-};
+const examples = EXAMPLES;
 
 const NAME = "BCE";
 
@@ -69,7 +65,7 @@ const margin = "5px";
 
 const defaultConf = {
     src:      EXAMPLE.trim(),
-    computer: "AC",
+    computer: "Mano",
     light:    false,
     signed:   true,
     dec:      true,
@@ -260,17 +256,12 @@ function moreView() {
         ];
     }
 
-    let archNames = { // TODO: unhardcode
-        "AC":  "Mano's Computer",
-        "BEN": "Ben's Computer",
-    };
-
     let archs = [];
     for (let a in computers) {
         archs.push($option({
             value: a,
             selected: getConf("computer") == a
-        }, archNames[a]));
+        }, computer_name(a)));
     }
 
     return $table({style: {width: "100%"}}, [
@@ -315,30 +306,23 @@ function moreView() {
         $tr([
             $td("Examples:"),
             $td($button({onclick: () => {
-                function ex(file, computer, name) {
-                    return [
-                        $button({
-                            style: {
-                                width:     "100%",
-                                textAlign: "left"
-                            },
-                            onclick: () => {
-                                initComputer(computer);
-                                editor.setValue(examples[file]);
-                                hideModal();
-                            }
-                        }, `${name} (${computer} computer)`),
-                        $br()
-                    ];
+                let examples_elems = [];
+                for (let e of examples) {
+                    examples_elems.push($button({
+                        style: {
+                            width:     "100%",
+                            textAlign: "left"
+                        },
+                        onclick: () => {
+                            initComputer(e.arch.toUpperCase());
+                            editor.setValue(e.src);
+                            hideModal();
+                        }
+                    }, `${e.name} (${e.arch}'s computer)`));
+                    examples_elems.push($br());
                 }
 
-                showModal($div([
-                    ...ex("ac-add",  "AC",  "Adding example"),
-                    ...ex("ac-mul",  "AC",  "Multiplication example"),
-                    ...ex("ac-io",   "AC",  "IO example"),
-                    ...ex("ben-add", "BEN", "Adding example"),
-                    ...ex("ben-mul", "BEN", "Multiplication example")
-                ]));
+                showModal($div(examples_elems));
             }}, "LOAD EXAMPLE"))
         ]),
 
@@ -761,7 +745,7 @@ function initComputer(kind) {
         setConf("live", c.live);
     };
 
-    c.logger.log(`Welcome to ${kind} computer!`, true);
+    c.logger.log(`Welcome to ${computer_name(kind)}!`, true);
     setConf("computer", kind);
 }
 
