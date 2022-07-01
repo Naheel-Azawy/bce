@@ -6,7 +6,7 @@ export const computers = {
     "BEN":  ComputerBen
 }
 
-export function computer_name(c: string): string {
+export function computerName(c: string): string {
     return c.charAt(0).toUpperCase() +
         c.slice(1).toLowerCase() + "'s computer";
 }

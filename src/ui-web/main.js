@@ -1,7 +1,7 @@
 "use strict";
 
 import {
-    computers, computer_name
+    computers, computerName
 } from "../core/computers";
 
 import {
@@ -65,7 +65,7 @@ const margin = "5px";
 
 const defaultConf = {
     src:      EXAMPLE.trim(),
-    computer: "Mano",
+    computer: "MANO",
     light:    false,
     signed:   true,
     dec:      true,
@@ -261,7 +261,7 @@ function moreView() {
         archs.push($option({
             value: a,
             selected: getConf("computer") == a
-        }, computer_name(a)));
+        }, computerName(a)));
     }
 
     return $table({style: {width: "100%"}}, [
@@ -683,6 +683,13 @@ function defineCodeMirrorSyntax(CodeMirror) {
 }
 
 function initComputer(kind) {
+    let all = Object.keys(computers);
+    if (!all.includes(kind)) {
+        kind = "MANO";
+        console.error(`unknown computer architecture ${kind}. ` +
+                      "Choose one of", all);
+    }
+
     c = new computers[kind]();
     window.computer = c;
 
@@ -745,9 +752,11 @@ function initComputer(kind) {
         setConf("live", c.live);
     };
 
-    c.logger.log(`Welcome to ${computer_name(kind)}!`, true);
+    c.logger.log(`Welcome to ${computerName(kind)}!`, true);
     setConf("computer", kind);
 }
+
+Object.assign(globalThis, {initComputer});
 
 function init() {
     document.title = NAME;
@@ -773,7 +782,7 @@ function reinit() {
     $get("#trm").value = trm;
 }
 
-async function main() {
+export async function main() {
     if ("serviceWorker" in navigator) {
         try {
             let reg = await navigator.serviceWorker.register("sw.bundle.js");
@@ -783,7 +792,6 @@ async function main() {
         }
     }
 
-    window.onbeforeunload = () => "Are you sure you want to leave?";
     window.addEventListener("keydown", event => {
         if (event.key == "Escape") {
             hideModal();
@@ -801,5 +809,3 @@ async function main() {
     initComputer(getConf("computer"));
     c.runListenersNow();
 }
-
-window.addEventListener("load", main);

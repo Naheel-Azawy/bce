@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=BCE
+Comment=Basic Computer Emulator and assembler
+Exec=bce --web
+Icon=bce
+Type=Application
+Terminal=false
+Categories=Development;IDE;

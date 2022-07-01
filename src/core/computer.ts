@@ -223,9 +223,9 @@ export abstract class Computer {
         for (let l of this.listeners) {
             l();
         }
-        if (!this.live) {
+        /*if (!this.live) {
             this.logger.runListeners();
-        }
+        }*/
     }
 
     public runListeners(): void {
@@ -518,9 +518,12 @@ class Formatter {
         let mem = this.memory.split("\n");
         let reg = this.registers.split("\n");
         let len = Math.max(mem.length, reg.length);
-        let memMaxW = mem[0].length;
+        let memMaxW = mem[0].length + 10;
+        res += "Memory".padEnd(memMaxW) + "Registers\n";
+        res += "=".repeat(mem[0].length).padEnd(memMaxW) +
+            "=".repeat(reg[0].length) + "\n";
         for (let i = 0; i < len; ++i) {
-            res += (mem[i] ? mem[i] : "").padEnd(memMaxW + 3) +
+            res += (mem[i] ? mem[i] : "").padEnd(memMaxW) +
                 (reg[i] ? reg[i] : "") + "\n";
         }
         return res;

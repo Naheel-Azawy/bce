@@ -30,15 +30,14 @@ module.exports = env => {
         devtool: env.production ? undefined : "inline-source-map",
 
         entry: {
-            index: "./src/ui-web/main.js",
+            index: "./src/ui.js",
             sw:    "./src/ui-web/sw.js",
-            cli:   "./src/ui-cli/main.js",
             test:  "./src/test.js"
         },
 
         output: {
             path:     path.resolve(__dirname, "dist"),
-            filename: "[name].bundle.js",
+            filename: "[name].js",
             clean:    true
         },
 
@@ -91,11 +90,15 @@ module.exports = env => {
                 ]
             }),
 
-            new webpack.BannerPlugin({
-                banner:  "#!/usr/bin/env node",
-                include: "cli",
-                raw:     true
-            }),
+            {
+                apply: compiler => {
+                    compiler.hooks.afterEmit.tap("AfterEmitPlugin", compilation => {
+                        const banner = fs.readFileSync("./src/ui-cli/launcher.sh").toString();
+                        const src = fs.readFileSync("./dist/index.js").toString();
+                        fs.writeFileSync("./dist/index.js", banner + src);
+                    });
+                }
+            }
 
             // new BundleAnalyzerPlugin()
         ]

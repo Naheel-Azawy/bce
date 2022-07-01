@@ -1,12 +1,23 @@
 * BCE
-  Basic Computer Emulator
+Basic Computer Emulator
+
+** Architectures
+- The one described in the Computer System Architecture book by M. Morris Mano
+- The breadboard computer built by Ben Eater
 
 ** Build
-   #+begin_src shell
-     make
-     # or...
-     npm i && npm run build:prod
-   #+end_src
+#+begin_src shell
+  make
+  make test # optional
+#+end_src
+
+** Install
+As a web application, this program can be run directly on the browser without installing. But it can be installed as a [[https://en.wikipedia.org/wiki/Progressive_web_application][PWA]].
+
+For command-line interface and desktop shortcut, Linux users can install with ~make install~.
+
+** Command-line usage
+Check ~bce --help~
 
 ** License
-   GPL3
+GPL-3

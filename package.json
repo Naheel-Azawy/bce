@@ -2,13 +2,14 @@
     "name": "bce",
     "version": "1.0.0",
     "description": "Basic Computer Emulator",
+    "main": "dist/main.js",
     "scripts": {
         "build": "webpack",
         "build:prod": "webpack --env production",
         "watch": "webpack -w",
-        "test": "mocha dist/test.bundle.js",
+        "test": "mocha dist/test.js",
         "start": "http-server dist",
-        "cli": "node dist/cli.bundle.js"
+        "cli": "node dist/main.js"
     },
     "repository": {
         "type": "git",
@@ -25,17 +26,19 @@
     "homepage": "https://naheel.xyz/bce",
     "devDependencies": {
         "codemirror": "^5.65.6",
-        "css-loader": "*",
-        "elemobj": "*",
-        "html-webpack-plugin": "*",
-        "http-server": "*",
-        "mocha": "*",
-        "style-loader": "*",
-        "ts-loader": "*",
-        "typescript": "*",
-        "webpack": "*",
+        "css-loader": "^6.7.1",
+        "elemobj": "^1.0.1",
+        "html-webpack-plugin": "5.5.0",
+        "http-server": "^14.1.1",
+        "mocha": "^10.0.0",
+        "sprintf-js": "^1.1.2",
+        "style-loader": "^3.3.1",
+        "ts-loader": "^9.3.1",
+        "typescript": "^4.7.4",
+        "webpack": "^5.73.0",
         "webpack-bundle-analyzer": "^4.5.0",
-        "webpack-cli": "*",
-        "webpack-pwa-manifest": "*"
+        "webpack-cli": "^4.10.0",
+        "webpack-pwa-manifest": "^4.3.0",
+        "which": "^2.0.2"
     }
 }
